@@ -1,0 +1,22 @@
+{
+  "name": "kalshi-cli",
+  "version": "0.1.0",
+  "description": "Simple TypeScript CLI for Kalshi trading workflows",
+  "private": true,
+  "type": "commonjs",
+  "bin": {
+    "kalshi": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node --test dist/tests",
+    "start": "node dist/cli.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  }
+}
