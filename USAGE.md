@@ -43,7 +43,8 @@ kalshi order create \
   --action buy \
   --count 10 \
   --type limit \
-  --yes-price 47 \
+  --no-price 53 \
+  --post-only \
   --client-order-id my-bot-001
 ```
 
@@ -51,6 +52,13 @@ kalshi order create \
 
 ```bash
 kalshi order cancel <order_id>
+```
+
+### List resting/open orders
+
+```bash
+kalshi orders list
+kalshi orders list --status resting --ticker CPI-24DEC-T3.0 --limit 100
 ```
 
 ### Get fills
@@ -83,3 +91,11 @@ kalshi event CPI-24DEC
 - Capture stdout and parse JSON in your orchestration layer.
 - Use non-zero exit code to detect API and validation failures.
 - Set `KALSHI_BASE_URL` if Kalshi changes hostnames.
+
+## Pricing semantics
+
+- `--side yes` targets YES contracts; `--side no` targets NO contracts.
+- Use `--yes-price` to price YES directly.
+- Use `--no-price` to price NO directly.
+- If both are provided, both are sent through to Kalshi exactly as provided.
+- `--post-only` sets `post_only: true` to avoid taker fills from crossing limit prices.

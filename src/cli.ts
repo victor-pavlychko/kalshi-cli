@@ -13,11 +13,12 @@ Commands:
   orderbook <ticker>
   balance
   positions [--ticker <ticker>]
+  orders list [--status <resting|executed|canceled>] [--ticker <ticker>] [--limit <n>] [--cursor <cursor>]
   fills [--limit <n>] [--cursor <cursor>]
   trades [--ticker <ticker>] [--limit <n>]
   series <series_ticker>
   event <event_ticker>
-  order create --ticker <ticker> --side <yes|no> --action <buy|sell> --count <n> [--type limit|market] [--yes-price <1-99>] [--no-price <1-99>] [--expiration-ts <unix_ms>] [--client-order-id <id>]
+  order create --ticker <ticker> --side <yes|no> --action <buy|sell> --count <n> [--type limit|market] [--yes-price <1-99>] [--no-price <1-99>] [--post-only] [--expiration-ts <unix_ms>] [--client-order-id <id>]
   order cancel <order_id>
 
 Auth env vars:

@@ -12,6 +12,10 @@ function readFlag(args: string[], flag: string): string | undefined {
   return args[index + 1];
 }
 
+function hasFlag(args: string[], flag: string): boolean {
+  return args.includes(flag);
+}
+
 function requireFlag(args: string[], flag: string): string {
   const value = readFlag(args, flag);
   if (!value) {
@@ -23,6 +27,10 @@ function requireFlag(args: string[], flag: string): string {
 function readNumberFlag(args: string[], flag: string): number | undefined {
   const raw = readFlag(args, flag);
   return raw === undefined ? undefined : Number(raw);
+}
+
+function normalizeArgs(actionOrId: string | undefined, rest: string[]): string[] {
+  return [actionOrId, ...rest].filter(Boolean) as string[];
 }
 
 export async function runCommand(context: CliContext, args: string[]): Promise<unknown> {
@@ -58,33 +66,49 @@ export async function runCommand(context: CliContext, args: string[]): Promise<u
   }
 
   if (resource === "positions") {
+    const normalized = normalizeArgs(actionOrId, rest);
     return context.client.request({
       method: "GET",
       path: "/portfolio/positions",
       query: {
-        ticker: readFlag([actionOrId, ...rest].filter(Boolean) as string[], "--ticker")
+        ticker: readFlag(normalized, "--ticker")
+      }
+    });
+  }
+
+  if (resource === "orders" && actionOrId === "list") {
+    return context.client.request({
+      method: "GET",
+      path: "/portfolio/orders",
+      query: {
+        status: readFlag(rest, "--status") ?? "resting",
+        ticker: readFlag(rest, "--ticker"),
+        limit: readNumberFlag(rest, "--limit"),
+        cursor: readFlag(rest, "--cursor")
       }
     });
   }
 
   if (resource === "fills") {
+    const normalized = normalizeArgs(actionOrId, rest);
     return context.client.request({
       method: "GET",
       path: "/portfolio/fills",
       query: {
-        limit: readNumberFlag([actionOrId, ...rest].filter(Boolean) as string[], "--limit"),
-        cursor: readFlag([actionOrId, ...rest].filter(Boolean) as string[], "--cursor")
+        limit: readNumberFlag(normalized, "--limit"),
+        cursor: readFlag(normalized, "--cursor")
       }
     });
   }
 
   if (resource === "trades") {
+    const normalized = normalizeArgs(actionOrId, rest);
     return context.client.request({
       method: "GET",
       path: "/markets/trades",
       query: {
-        ticker: readFlag([actionOrId, ...rest].filter(Boolean) as string[], "--ticker"),
-        limit: readNumberFlag([actionOrId, ...rest].filter(Boolean) as string[], "--limit")
+        ticker: readFlag(normalized, "--ticker"),
+        limit: readNumberFlag(normalized, "--limit")
       }
     });
   }
@@ -126,6 +150,7 @@ export async function runCommand(context: CliContext, args: string[]): Promise<u
         type: (readFlag(rest, "--type") ?? "limit").toUpperCase(),
         yes_price: readNumberFlag(rest, "--yes-price"),
         no_price: readNumberFlag(rest, "--no-price"),
+        post_only: hasFlag(rest, "--post-only") || undefined,
         expiration_ts: readFlag(rest, "--expiration-ts"),
         client_order_id: readFlag(rest, "--client-order-id")
       }
