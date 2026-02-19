@@ -6,7 +6,8 @@ A simple TypeScript command-line utility for interacting with the official Kalsh
 - Supports both production and demo/sandbox environments.
 - Machine-friendly JSON output by default.
 - Includes `orders list` for robust autonomous order-state reconciliation.
-- Supports `--post-only` and explicit `--yes-price` / `--no-price` on order creation.
+- Supports `--post-only`, `--expiration-ts`, and `--buy-max-cost` safety controls.
+- Supports `order amend` for atomic order updates.
 
 ## Requirements
 
@@ -81,9 +82,12 @@ npm test
 - `GET /portfolio/positions`
 - `GET /portfolio/orders`
 - `POST /portfolio/orders`
+- `POST /portfolio/orders/{order_id}/amend`
 - `DELETE /portfolio/orders/{order_id}`
 - `GET /portfolio/fills`
+- `GET /portfolio/settlements`
 - `GET /markets/trades`
+- `GET /series`
 - `GET /series/{series_ticker}`
 - `GET /events/{event_ticker}`
 
