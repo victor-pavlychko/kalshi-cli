@@ -35,7 +35,7 @@ test("client sends signed headers when api key and private key are set", async (
   const signature = calls[0].headers["KALSHI-ACCESS-SIGNATURE"];
   assert.equal(typeof signature, "string");
 
-  const payload = `${calls[0].headers["KALSHI-ACCESS-TIMESTAMP"]}GET/trade-api/v2/markets?status=open`;
+  const payload = `${calls[0].headers["KALSHI-ACCESS-TIMESTAMP"]}GET/trade-api/v2/markets`;
   const verifier = createVerify("RSA-SHA256");
   verifier.update(payload);
   verifier.end();

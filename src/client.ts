@@ -42,6 +42,7 @@ export class KalshiClient {
     const baseUrl = new URL(this.config.baseUrl);
     const basePath = baseUrl.pathname.endsWith("/") ? baseUrl.pathname.slice(0, -1) : baseUrl.pathname;
     const requestPath = `${basePath}${pathWithQuery}`;
+    const requestPathWithoutQuery = `${basePath}${options.path}`;
     const url = new URL(requestPath, `${baseUrl.protocol}//${baseUrl.host}`);
 
     const headers: Record<string, string> = {
@@ -60,7 +61,7 @@ export class KalshiClient {
         this.config.privateKey,
         timestamp,
         options.method,
-        requestPath
+        requestPathWithoutQuery
       );
     }
 
