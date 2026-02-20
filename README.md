@@ -100,9 +100,15 @@ Authentication is environment-driven.
 ### Option B: Official Kalshi signed headers
 
 - `KALSHI_API_KEY`
-- `KALSHI_PRIVATE_KEY` (PEM)
+- `KALSHI_PRIVATE_KEY_BASE64` (base64-encoded PEM)
 
 When key + private key are provided, the CLI signs requests and sends:
+
+Encode a PEM file safely for env usage:
+
+```bash
+base64 -w 0 /path/to/kalshi-private-key.pem
+```
 
 - `KALSHI-ACCESS-KEY`
 - `KALSHI-ACCESS-TIMESTAMP`
