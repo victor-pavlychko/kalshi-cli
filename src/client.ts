@@ -1,4 +1,4 @@
-import { createSign } from "node:crypto";
+import { constants, createSign } from "node:crypto";
 import { ClientConfig, RequestOptions } from "./types";
 
 function buildQueryString(query: RequestOptions["query"]): string {
@@ -23,7 +23,19 @@ function signRequest(privateKey: string, timestamp: string, method: string, path
   const signer = createSign("RSA-SHA256");
   signer.update(payload);
   signer.end();
-  return signer.sign(privateKey, "base64");
+  return signer.sign(
+    {
+      key: privateKey,
+      padding: constants.RSA_PKCS1_PSS_PADDING,
+      saltLength: constants.RSA_PSS_SALTLEN_DIGEST
+    },
+    "base64"
+  );
+}
+
+function getSigningPath(url: string): string {
+  const parsed = new URL(url);
+  return `${parsed.pathname}${parsed.search}`;
 }
 
 export class KalshiClient {
@@ -50,7 +62,7 @@ export class KalshiClient {
         this.config.privateKey,
         timestamp,
         options.method,
-        pathWithQuery
+        getSigningPath(url)
       );
     }
 
