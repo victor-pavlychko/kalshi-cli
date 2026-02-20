@@ -37,6 +37,58 @@ npm run build
 node dist/cli.js help
 ```
 
+## Installation from a public GitHub repository (with npm)
+
+Install globally directly from a public GitHub repo:
+
+```bash
+npm install -g github:<owner>/<repo>
+```
+
+For example:
+
+```bash
+npm install -g github:kalshi/kalshi-cli
+```
+
+The package is configured to build automatically during git-based install (`prepare` script), so `dist/cli.js` is generated for the `kalshi` binary.
+
+Then run:
+
+```bash
+kalshi help
+```
+
+If `kalshi` is not found, your npm global bin directory may not be on `PATH`.
+
+Check where npm installs global binaries:
+
+```bash
+npm bin -g
+```
+
+Temporarily add it to your shell `PATH` (replace `<npm-global-bin>` with the output above):
+
+```bash
+export PATH="<npm-global-bin>:$PATH"
+```
+
+Then verify again:
+
+```bash
+kalshi help
+```
+
+If your environment blocks global npm binaries entirely, use a local clone and link:
+
+```bash
+git clone https://github.com/kalshi/kalshi-cli.git
+cd kalshi-cli
+npm install
+npm link
+kalshi help
+```
+
 ## Configuration
 
 Authentication is environment-driven.
