@@ -2,6 +2,7 @@
 import { runCommand } from "./commands";
 import { resolveBaseUrl, resolveEnvironment } from "./config";
 import { KalshiClient } from "./client";
+import { resolvePrivateKey } from "./auth";
 
 const HELP_TEXT = `kalshi - concise Kalshi CLI for automation
 
@@ -26,7 +27,7 @@ Commands:
 
 Auth env vars:
   KALSHI_ACCESS_TOKEN
-  or KALSHI_API_KEY + KALSHI_PRIVATE_KEY
+  or KALSHI_API_KEY + KALSHI_PRIVATE_KEY_BASE64
 
 Config env vars:
   KALSHI_ENV=prod|demo
@@ -71,7 +72,7 @@ async function main(): Promise<void> {
     baseUrl,
     accessToken: process.env.KALSHI_ACCESS_TOKEN,
     apiKey: process.env.KALSHI_API_KEY,
-    privateKey: process.env.KALSHI_PRIVATE_KEY
+    privateKey: resolvePrivateKey(process.env.KALSHI_PRIVATE_KEY_BASE64)
   });
 
   const result = await runCommand({ client }, command);
