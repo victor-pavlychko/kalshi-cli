@@ -39,7 +39,10 @@ export class KalshiClient {
   async request(options: RequestOptions): Promise<unknown> {
     const querySuffix = buildQueryString(options.query);
     const pathWithQuery = `${options.path}${querySuffix}`;
-    const url = `${this.config.baseUrl}${pathWithQuery}`;
+    const baseUrl = new URL(this.config.baseUrl);
+    const basePath = baseUrl.pathname.endsWith("/") ? baseUrl.pathname.slice(0, -1) : baseUrl.pathname;
+    const requestPath = `${basePath}${pathWithQuery}`;
+    const url = new URL(requestPath, `${baseUrl.protocol}//${baseUrl.host}`);
 
     const headers: Record<string, string> = {
       "Content-Type": "application/json"
@@ -57,7 +60,7 @@ export class KalshiClient {
         this.config.privateKey,
         timestamp,
         options.method,
-        pathWithQuery
+        requestPath
       );
     }
 
