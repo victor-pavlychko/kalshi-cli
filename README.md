@@ -51,6 +51,8 @@ For example:
 npm install -g github:kalshi/kalshi-cli
 ```
 
+The package is configured to build automatically during git-based install (`prepare` script), so `dist/cli.js` is generated for the `kalshi` binary.
+
 Then run:
 
 ```bash
@@ -74,6 +76,16 @@ export PATH="<npm-global-bin>:$PATH"
 Then verify again:
 
 ```bash
+kalshi help
+```
+
+If your environment blocks global npm binaries entirely, use a local clone and link:
+
+```bash
+git clone https://github.com/kalshi/kalshi-cli.git
+cd kalshi-cli
+npm install
+npm link
 kalshi help
 ```
 
