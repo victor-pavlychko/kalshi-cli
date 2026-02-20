@@ -57,6 +57,26 @@ Then run:
 kalshi help
 ```
 
+If `kalshi` is not found, your npm global bin directory may not be on `PATH`.
+
+Check where npm installs global binaries:
+
+```bash
+npm bin -g
+```
+
+Temporarily add it to your shell `PATH` (replace `<npm-global-bin>` with the output above):
+
+```bash
+export PATH="<npm-global-bin>:$PATH"
+```
+
+Then verify again:
+
+```bash
+kalshi help
+```
+
 ## Configuration
 
 Authentication is environment-driven.
