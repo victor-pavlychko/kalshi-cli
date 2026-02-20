@@ -37,6 +37,26 @@ npm run build
 node dist/cli.js help
 ```
 
+## Installation from a public GitHub repository (with npm)
+
+Install globally directly from a public GitHub repo:
+
+```bash
+npm install -g github:<owner>/<repo>
+```
+
+For example:
+
+```bash
+npm install -g github:kalshi/kalshi-cli
+```
+
+Then run:
+
+```bash
+kalshi help
+```
+
 ## Configuration
 
 Authentication is environment-driven.
