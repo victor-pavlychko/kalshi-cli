@@ -5,12 +5,12 @@
   "private": true,
   "type": "commonjs",
   "bin": {
-    "kalshi": "dist/cli.js"
+    "kalshi": "dist/src/cli.js"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node --test dist/tests",
-    "start": "node dist/cli.js",
+    "start": "node dist/src/cli.js",
     "prepare": "npm run build"
   },
   "engines": {

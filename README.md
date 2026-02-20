@@ -34,7 +34,7 @@ If you do not want global linking, run it directly:
 
 ```bash
 npm run build
-node dist/cli.js help
+node dist/src/cli.js help
 ```
 
 ## Installation from a public GitHub repository (with npm)
@@ -51,7 +51,7 @@ For example:
 npm install -g github:kalshi/kalshi-cli
 ```
 
-The package is configured to build automatically during git-based install (`prepare` script), so `dist/cli.js` is generated for the `kalshi` binary.
+The package is configured to build automatically during git-based install (`prepare` script), so `dist/src/cli.js` is generated for the `kalshi` binary.
 
 Then run:
 
@@ -64,13 +64,13 @@ If `kalshi` is not found, your npm global bin directory may not be on `PATH`.
 Check where npm installs global binaries:
 
 ```bash
-npm bin -g
+npm prefix -g
 ```
 
-Temporarily add it to your shell `PATH` (replace `<npm-global-bin>` with the output above):
+Temporarily add it to your shell `PATH` (replace `<npm-global-prefix>` with the output above, then append `/bin`):
 
 ```bash
-export PATH="<npm-global-bin>:$PATH"
+export PATH="<npm-global-prefix>/bin:$PATH"
 ```
 
 Then verify again:
